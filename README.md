@@ -26,6 +26,8 @@ This adds two custom url scheme protocols to the windows registry (db-open:// an
 1. ```$ python Protocols.py```
 2. Run add_protocols.bat as Administrator 
 
+If you'd like to remove the added url scheme protocols from the registry run del_protocols.bat as Administrator
+
 ## Command line arguments
 
 Executing the tool is very simple and straight forward. 
