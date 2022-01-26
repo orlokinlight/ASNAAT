@@ -1,0 +1,5 @@
+/com.clouthub.clouthub/databases/com.amplitude.api
+/com.clouthub.clouthub/shared_prefs/Clouthub.xml
+/com.clouthub.clouthub/cache.volley
+/com.clouthub.clouthub/cache/compressor
+/com.clouthub.clouthub/cache/image_manager_disk_cache

@@ -1,0 +1,2 @@
+/Library/Caches/mediacache
+/Library/Caches

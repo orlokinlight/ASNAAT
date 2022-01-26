@@ -1,0 +1,6 @@
+/tmp
+com.amplitude.database
+com.google.gmp.measurement.plist
+com.clouthubapp.plist
+/com.hackemist.SDImageCache/default
+Cache.db

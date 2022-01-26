@@ -1,0 +1,8 @@
+/com.wimkin.android/databases/RKStorage
+/com.wimkin.android/cache/image-cache/v2.ols100.1/99
+/com.wimkin.android/cache/react-native-image-crop-picker
+/com.wimkin.android/cache
+/com.wimkin.android/shared_prefs/rocketUser.xml
+/com.wimkin.android/shared_prefs/io.invertase.firebase.xml
+/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml
+/com.wimkin.android/chatplus-chat.wimkin.com.db.db

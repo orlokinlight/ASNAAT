@@ -1,0 +1,2 @@
+/tmp
+/Library/WebKit/WebsiteData/LocalStorage/https_parler.com_0.localstorage

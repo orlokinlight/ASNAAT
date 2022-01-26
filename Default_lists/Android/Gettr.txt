@@ -1,0 +1,7 @@
+/com.gettr.gettr/files/libCachedImageData.db
+/com.gettr.gettr/databases/private_hughhen123.db
+/com.gettr.gettr/databases/g.db
+/com.gettr.gettr/cache/libCachedImageData
+/com.gettr.gettr/shared_prefs/giphy_recents_file.xml
+/com.gettr.gettr/shared_prefs/giphy_searches_file.xml
+/com.gettr.gettr/cache/image_manager_disk_cache

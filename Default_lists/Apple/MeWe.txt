@@ -1,0 +1,4 @@
+/tmp
+sgrouplesdb.sqlite
+Cache.db
+/com.hackemist.SDImageCache/default

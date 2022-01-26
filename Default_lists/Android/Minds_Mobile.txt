@@ -1,0 +1,4 @@
+/com.minds.mobile/databases/minds1.db
+/com.minds.mobile/databases/RKStorage
+/com.minds.mobile/cache/react-native-image-crop-picker
+/com.minds.mobile/cache/image_manager_disk_cache

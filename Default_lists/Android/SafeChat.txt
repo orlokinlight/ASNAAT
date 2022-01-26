@@ -1,0 +1,4 @@
+/net.safechat.app/cache/SafeChat
+/net.safechat/cache
+/net.safechat.app/databases/SafeChat.db
+/net.safechat.app/databases/download_tasks.db

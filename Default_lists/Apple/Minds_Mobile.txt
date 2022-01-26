@@ -1,0 +1,5 @@
+minds1.db
+/react-native-image-crop-picker
+/com.minds.mobile/fsCachedData
+/com.hackemist.SDImageCache/default
+Cache.db

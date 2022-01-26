@@ -1,0 +1,4 @@
+/com.mewe/databases/app_database
+/com.mewe/shared_prefs/AppSession.xml
+/com.mewe/shared_prefs/SGSession.xml
+/com.mewe/cache/image_manager_disk_cache

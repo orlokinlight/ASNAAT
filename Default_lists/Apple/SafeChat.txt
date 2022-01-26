@@ -1,0 +1,3 @@
+SafeChat.db
+/tmp
+/tmp/.video

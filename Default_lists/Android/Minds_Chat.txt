@@ -1,0 +1,4 @@
+/com.minds.chat/cache/downloads/83e36ef56991d5c448f05d365f2212c9/F/D/
+/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml
+/com.minds.chat/shared_prefs/emoji-recent-manager.xml
+/com.minds.chat/image_manager_disk_cache

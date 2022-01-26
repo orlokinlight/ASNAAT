@@ -1,0 +1,6 @@
+/tmp/.video
+/tmp/.image
+/tmp/flutter-images
+/Documents
+Cache.db
+/Library/Caches/libCachedImageData

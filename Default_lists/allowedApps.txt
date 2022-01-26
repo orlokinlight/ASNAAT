@@ -1,0 +1,8 @@
+com.parler.parler
+com.minds.chat
+com.minds.mobile
+net.safechat.app
+app.howly.ios
+com.clouthub.clouthubapp
+com.gettr.gettr
+com.mewe
