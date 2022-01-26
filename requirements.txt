@@ -1,0 +1,8 @@
+Columnar
+pandas
+ipython
+xmltodict
+Jinja2
+Pillow
+ipython
+emojis
