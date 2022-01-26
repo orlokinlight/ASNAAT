@@ -20,7 +20,11 @@ Once you have setup the virtual environment it is important to install the neces
 ```bash
 $ pip install -r requirements.txt
 ```
+## Windows URL Scheme (Optional)
+This adds two custom url scheme protocols to the windows registry (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
 
+1. ```$ python Protocols.py```
+2. Run add_protocols.bat as Administrator 
 
 ## Command line arguments
 
@@ -29,7 +33,7 @@ The tool is setup to use default wordlists in order to provided a tailored repor
 
 ```bash
 Usage:   Tool.py [options] <inputfile>
-Example: Tool.py -a Apple.tar -w wordlist.txt
+Example: Tool.py -a Apple.tar
 Options:
          -h, --help
          -a            apple image tar
@@ -39,4 +43,4 @@ Options:
 Upon execution of the tool with the necessary options, the tool will ask for a Case Number and name of Examiner to preserve the chain of custody. Additionally, there is a built in feature to hash the TAR files before and after execution of the tool to ensure that the data has not been tampered.
 
 ## Report & Artifact Generation
-Once the tool is run, a customized report is generated for either Android Auto or Apple CarPlay. Currently it only supports documentation for the information we deemed important to convey. However, our tool extracts and separates the files defined in the wordlists to a folder named after the case file and image source type (ex: 00001-Apple).
+Once the tool is run, a customized report is generated for either Android or Apple. Currently it only supports documentation for the information we deemed important to convey. However, our tool extracts and separates the files defined in the wordlists to a folder named after the case file and image source type (ex: 00001-Apple).
