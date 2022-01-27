@@ -9,8 +9,15 @@ $ python -m venv ./virtualenv (use "python3" if multiple versions are installed)
 ```
 
 To activate or deactivate the environment:
+
+Windows:
 ```bash
-$ ./virtualenv/Scripts/activate ("\" for Windows)
+$ .\virtualenv\Scripts\activate
+$ deactivate
+```
+Mac:
+```bash
+$ source ./virtualenv/bin/activate
 $ deactivate
 ```
 
