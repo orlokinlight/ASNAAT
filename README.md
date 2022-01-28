@@ -2,13 +2,17 @@
 Alternative Social Networking Applications Analysis Tool (ASNAAT)
 
 ## Setup
+### Download
+Go to the releases to download either the Windows or Mac versions. For Mac it is important to put the tool in your users folder (/Users/[Username]/[Place-Tool-Here]).
+
+### Virtual Environment:
 To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:
 
 ```bash
 $ python -m venv ./virtualenv (use "python3" if multiple versions are installed)
 ```
 
-To activate or deactivate the environment:
+### Activate/Deactivate Environment:
 
 Windows:
 ```bash
@@ -22,18 +26,24 @@ $ deactivate
 ```
 
 
-Once you have setup the virtual environment it is important to install the necessary dependencies for this tool by running the command: 
-
+### Install Dependencies:
 ```bash
 $ pip install -r requirements.txt
 ```
-## Windows URL Scheme (Optional)
-This adds two custom url scheme protocols to the windows registry (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
 
+## URL Scheme Setup
+This adds two custom url scheme protocols (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
+
+### Windows
 1. ```$ python Protocols.py```
 2. Run add_protocols.bat as Administrator 
 
 If you'd like to remove the added url scheme protocols from the registry run del_protocols.bat as Administrator
+
+### Mac
+1. Drag db_proto and xml_proto to the Applications folder.
+
+If you'd like to remove the added url scheme protocols just delete the files.
 
 ## Command line arguments
 
