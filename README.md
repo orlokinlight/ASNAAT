@@ -2,6 +2,11 @@
 Alternative Social Networking Applications Analysis Tool (ASNAAT)
 
 ## Setup
+
+### Requirements
+-Python 3
+-Chrome (Use to open report)
+
 ### Download
 Go to the releases to download either the Windows or Mac versions. For Mac it is important to put the tool in your users folder (/Users/[Username]/[Place-Tool-Here]).
 
