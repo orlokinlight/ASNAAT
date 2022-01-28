@@ -4,48 +4,43 @@ Alternative Social Networking Applications Analysis Tool (ASNAAT)
 ## Setup
 
 ### Requirements:
-* Python 3
-* Chrome (Use to open report)
+>* Python 3
+>* Chrome (Use to open report)
 
 ### Download:
->Go to the releases to download either the Windows or Mac versions. For Mac it is important to put the tool in your users folder (/Users/[Username]/[Place-Tool-Here]).
+>Go to the releases to download either the Windows or Mac versions. 
+>* For Mac it is important to put the tool in your users folder (/Users/[Username]/[Place-Tool-Here]).
 
 ### Virtual Environment:
->To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:
-
-```bash
-$ python -m venv ./virtualenv
-```
+>To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:<br /><br />
+>```$ python -m venv ./virtualenv```<br /><br />
 >Use "**python3**" in command if multiple versions of python are installed.
 
 ### Activate/Deactivate Environment:
 
->Windows:
-```bash
-$ .\virtualenv\Scripts\activate
-$ deactivate
-```
->Mac:
-```bash
-$ source ./virtualenv/bin/activate
-$ deactivate
-```
+>Windows:<br />
+>```$ .\virtualenv\Scripts\activate```<br />
+>```$ deactivate                   ```<br /><br />
+
+>Mac:<br />
+```$ source ./virtualenv/bin/activate```<br />
+```$ deactivate```<br /><br />
 
 
 ### Install Dependencies:
 >```$ pip install -r requirements.txt```
 
 ## URL Scheme Setup
->This adds two custom url scheme protocols (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
+This adds two custom url scheme protocols (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
 
-### Windows
-1. ```$ python Protocols.py```
-2. Run add_protocols.bat as Administrator 
+### Windows:
+>1. ```$ python Protocols.py```
+>2. Run add_protocols.bat as Administrator<br />
 
 If you'd like to remove the added url scheme protocols from the registry run del_protocols.bat as Administrator
 
-### Mac
-1. In the "Protocols" folder, drag db_proto and xml_proto to the Macs Applications folder.
+### Mac:
+>1. In the "Protocols" folder, drag db_proto and xml_proto to the Macs Applications folder.
 
 If you'd like to remove the added url scheme protocols just delete the files.
 
