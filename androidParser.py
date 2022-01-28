@@ -79,9 +79,9 @@ def prnt(title,f_tables_0,f_tables_1):
 			print(title)
 			print(tables(f_tables_0,f_tables_1))
 
-def gettr():
+def gettr(prt):
 	if os.path.isdir('./{}/com.gettr.gettr'.format(foldername)):
-		print("\nGettr:\n")
+		print("\nGettr:\n") if prt == 1 else None
 
 	_IMAGE,_G,_USER,_GIF,_GIPHY={},{},{},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -102,7 +102,7 @@ def gettr():
 			_IMAGE["URL"].append(i[0])
 			_IMAGE["Relative_Path"].append(i[1])
 
-		prnt("LibCachedImageData.db:",_IMAGE,2)
+		prnt("LibCachedImageData.db:",_IMAGE,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -121,7 +121,7 @@ def gettr():
 			_G["User"].append(i[0])
 			_G["Info"].append(i[1])
 
-		prnt("g.db:",_G,2)
+		prnt("g.db:",_G,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -139,7 +139,7 @@ def gettr():
 			_USER["Type"].append(i[0])
 			_USER["Info"].append(i[1])
 
-		prnt(os.path.basename(path),_USER,2)
+		prnt(os.path.basename(path),_USER,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -155,7 +155,7 @@ def gettr():
 			_GIF["Filenames"].append(os.path.basename(i))
 			_GIF["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("Gifs:",_GIF,1)
+		prnt("Gifs:",_GIF,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -182,13 +182,13 @@ def gettr():
 		_GIPHY["Value"].append(search['#text'])
 	
 	if pr == 1:
-		prnt("Giphy Files:",_GIPHY,2)
+		prnt("Giphy Files:",_GIPHY,2) if prt == 1 else None
 	
 	return [_IMAGE,_G,_USER,_GIF,_GIPHY,_HASHES]
 
-def safechat():
+def safechat(prt):
 	if os.path.isdir('./{}/net.safechat.app'.format(foldername)):
-		print("\nSafe Chat:\n")
+		print("\nSafe Chat:\n") if prt == 1 else None
 
 	_MP4,_AAC,_CHANNEL,_CONVO,_MSG,_USR,_TASK={},{},{},{},{},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -207,7 +207,7 @@ def safechat():
 			_MP4["Filenames"].append(os.path.basename(i))
 			_MP4["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("MP4's:",_MP4,1)
+		prnt("MP4's:",_MP4,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -223,7 +223,7 @@ def safechat():
 			_AAC["Filenames"].append(os.path.basename(i))
 			_AAC["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("ACC's:",_AAC,1)
+		prnt("ACC's:",_AAC,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -282,10 +282,10 @@ def safechat():
 			_USR["FriendState"].append(i[5])
 			_USR["Joinded"].append(i[6])
 
-		prnt("Channel:",_CHANNEL,9)
-		prnt("Conversation:",_CONVO,5)
-		prnt("Messages:",_MSG,8)
-		prnt("Users:",_USR,7)
+		prnt("Channel:",_CHANNEL,9) if prt == 1 else None
+		prnt("Conversation:",_CONVO,5) if prt == 1 else None
+		prnt("Messages:",_MSG,8) if prt == 1 else None
+		prnt("Users:",_USR,7) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -308,13 +308,13 @@ def safechat():
 			_TASK["Saved_Dir"].append(i[3])
 			_TASK["Time_Created"].append(i[4])
 			
-		prnt("Tasks:",_TASK,5)
+		prnt("Tasks:",_TASK,5) if prt == 1 else None
 
 	return [_MP4,_AAC,_CHANNEL,_CONVO,_MSG,_USR,_TASK,_HASHES]
 
-def minds_chat():
+def minds_chat(prt):
 	if os.path.isdir('./{}/com.minds.chat'.format(foldername)):
-		print("\nMinds Chat:\n")
+		print("\nMinds Chat:\n") if prt == 1 else None
 
 	_FILES,_KEYS,_EMOJ={},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -337,7 +337,7 @@ def minds_chat():
 			_FILES["Filenames"].append(os.path.basename(i))
 			_FILES["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("DM Files:",_FILES,1)
+		prnt("DM Files:",_FILES,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -354,7 +354,7 @@ def minds_chat():
 			_KEYS["Name"].append(dict(i)["@name"])
 			_KEYS["Value"].append(dict(i)["#text"])
 
-		prnt("Keys:",_KEYS,2)
+		prnt("Keys:",_KEYS,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -372,11 +372,11 @@ def minds_chat():
 		_EMOJ["Type"].append(re.findall(r'\".*?\"', res)[0][1:-1])
 		_EMOJ["Value"].append(re.findall(r'\>.*?\<', res)[0][1:-1])
 
-		prnt("Emoji:",_EMOJ,2)
+		prnt("Emoji:",_EMOJ,2) if prt == 1 else None
 
 	return [_FILES,_KEYS,_EMOJ,_HASHES]
 
-def minds_mobile():
+def minds_mobile(prt):
 	if os.path.isdir('./{}/com.minds.mobile'.format(foldername)):
 		print("\nMinds Mobile:\n")
 
@@ -404,7 +404,7 @@ def minds_mobile():
 			_FILES["Filenames"].append(os.path.basename(i))
 			_FILES["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("DM Files:",_FILES,1)
+		prnt("DM Files:",_FILES,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -424,7 +424,7 @@ def minds_mobile():
 			_USR["Key"].append(i[0])
 			_USR["Value"].append(i[1])
 			
-		prnt("RKStorage:",_USR,2)
+		prnt("RKStorage:",_USR,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -459,15 +459,15 @@ def minds_mobile():
 			_ENTITIES["Data"].append(i[1])
 			_ENTITIES["Updated"].append(i[2])
 		
-		prnt("Comment:",_COMMENT,2)
-		prnt("Feed:",_FEED,2)
-		prnt("Entities:",_ENTITIES,2)
+		prnt("Comment:",_COMMENT,2) if prt == 1 else None
+		prnt("Feed:",_FEED,2) if prt == 1 else None
+		prnt("Entities:",_ENTITIES,2) if prt == 1 else None
 
 	return [_FILES,_USR,_COMMENT,_FEED,_ENTITIES,_HASHES]
 
-def wimkin():
+def wimkin(prt):
 	if os.path.isdir('./{}/com.wimkin.android'.format(foldername)):
-		print("\nWimkin:\n")
+		print("\nWimkin:\n") if prt == 1 else None
 
 	_SERV,_AUTH,_FEED,_PREF,_MSG,_ROOM,_SUBS,_FILES={},{},{},{},{},{},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -490,7 +490,7 @@ def wimkin():
 			_SERV["Key"].append(i[0])
 			_SERV["Value"].append(i[1])
 			
-		prnt("RKStorage:",_SERV,2)
+		prnt("RKStorage:",_SERV,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -506,7 +506,7 @@ def wimkin():
 			_AUTH["Name"].append(dict(i)["@name"])
 			_AUTH["Value"].append(dict(i)["#text"])
 
-		prnt("Auth:",_AUTH,2)
+		prnt("Auth:",_AUTH,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -522,7 +522,7 @@ def wimkin():
 			_FEED["Name"].append(dict(i)["@name"])
 			_FEED["Value"].append(dict(i)["#text"])
 
-		prnt("Feed:",_FEED,2)
+		prnt("Feed:",_FEED,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -545,7 +545,7 @@ def wimkin():
 					except:
 						_PREF["Value"].append(d['#text'])
 
-		prnt("Prefs:",_PREF,2)
+		prnt("Prefs:",_PREF,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -585,9 +585,9 @@ def wimkin():
 			_SUBS["Name"].append(i[3])
 			_SUBS["Last_Message"].append(i[4])
 			
-		prnt("Messages:",_MSG,6)
-		prnt("Rooms:",_ROOM,3)
-		prnt("Subscribers:",_SUBS,5)
+		prnt("Messages:",_MSG,6) if prt == 1 else None
+		prnt("Rooms:",_ROOM,3) if prt == 1 else None
+		prnt("Subscribers:",_SUBS,5) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -604,13 +604,13 @@ def wimkin():
 			_FILES["Filenames"].append(os.path.basename(i))
 			_FILES["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("DM Files:",_FILES,1)
+		prnt("DM Files:",_FILES,1) if prt == 1 else None
 
 	return [_SERV,_AUTH,_FEED,_PREF,_MSG,_ROOM,_SUBS,_FILES,_HASHES]
 
-def clouthub():
+def clouthub(prt):
 	if os.path.isdir('./{}/com.clouthub.clouthub'.format(foldername)):
-		print("\nCloutHub:\n")
+		print("\nCloutHub:\n") if prt == 1 else None
 
 	_FILES,_SERV,_PARTS={},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -636,7 +636,7 @@ def clouthub():
 			_FILES["Filenames"].append(os.path.basename(i))
 			_FILES["Location"].append("."+i[len(foldername)+2:])
 
-		prnt("DM Files:",_FILES,1)
+		prnt("DM Files:",_FILES,1) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -656,7 +656,7 @@ def clouthub():
 			_SERV["Key"].append(i[0])
 			_SERV["Value"].append(i[1])
 			
-		prnt("com.amplitude.api:",_SERV,2)
+		prnt("com.amplitude.api:",_SERV,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -708,13 +708,13 @@ def clouthub():
 				_PARTS["Keys"].append('app_setting__deeplink_weburl_key')
 				_PARTS["Values"].append(dict(i)['#text'])
 			
-		prnt("User Data:",_PARTS,2)
+		prnt("User Data:",_PARTS,2) if prt == 1 else None
 
 	return [_FILES,_SERV,_PARTS,_HASHES]
 
-def mewe():
+def mewe(prt):
 	if os.path.isdir('./{}/com.mewe'.format(foldername)):
-		print("\nMeWe:\n")
+		print("\nMeWe:\n") if prt == 1 else None
 
 	_CONTACT,_GROUPS,_POST,_COMMENT,_CHATS,_THREADS,_THREADSPART,_PARTS,_PARTS2={},{},{},{},{},{},{},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -797,13 +797,13 @@ def mewe():
 			_THREADSPART["Name"].append(i[1])
 			_THREADSPART["Chat Thread ID"].append(i[2])
 		
-		prnt("Contact:",_CONTACT,4)
-		prnt("Groups:",_GROUPS,4)
-		prnt("Post:",_POST,8)
-		prnt("Comment:",_COMMENT,7)
-		prnt("Chats:",_CHATS,5)
-		prnt("Threads:",_THREADS,4)
-		prnt("Thread Participant:",_THREADSPART,3)
+		prnt("Contact:",_CONTACT,4) if prt == 1 else None
+		prnt("Groups:",_GROUPS,4) if prt == 1 else None
+		prnt("Post:",_POST,8) if prt == 1 else None
+		prnt("Comment:",_COMMENT,7) if prt == 1 else None
+		prnt("Chats:",_CHATS,5) if prt == 1 else None
+		prnt("Threads:",_THREADS,4) if prt == 1 else None
+		prnt("Thread Participant:",_THREADSPART,3) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -832,7 +832,7 @@ def mewe():
 				_PARTS["Keys"].append('primaryPhoneNumber')
 				_PARTS["Values"].append(jsn['primaryPhoneNumber']) if jsn['primaryPhoneNumber'] else _PARTS["Values"].append("")
 
-		prnt("SGSession.xml:",_PARTS,2)
+		prnt("SGSession.xml:",_PARTS,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -849,7 +849,7 @@ def mewe():
 			_PARTS2["Keys"].append(dict(i)["@name"])
 			_PARTS2["Values"].append(dict(i)["#text"]) if dict(i)["#text"] else _PARTS["Values"].append("")
 				
-		prnt("AppSession.xml",_PARTS2,2)
+		prnt("AppSession.xml",_PARTS2,2) if prt == 1 else None
 
 	return [_CONTACT,_GROUPS,_POST,_COMMENT,_CHATS,_THREADS,_THREADSPART,_PARTS,_PARTS2,_HASHES]
 
@@ -884,7 +884,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">LibCachedImageData.db</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/files/LibCachedImageData.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(gettr_[0])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -893,7 +893,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">g.db</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/databases/g.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(gettr_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -903,7 +903,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		file = os.path.basename(glob.glob("./{}/com.gettr.gettr/databases/private_*.db".format(foldername))[0])
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">{}</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/databases/{}".format(foldername,file)),file))
 		df1 = pd.DataFrame.from_dict(gettr_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -915,7 +915,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(gettr_[3])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -924,7 +924,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_recents_file.xml</a> & <a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_searches_file.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_recents_file.xml".format(foldername)),os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_searches_file.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(gettr_[4])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -933,7 +933,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(gettr_[5])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -948,7 +948,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(safechat_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -960,7 +960,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(safechat_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -969,7 +969,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">SafeChat.db</a> - Channels</h2>\n'''.format(os.path.abspath("./{}/net.safechat.app/databases/SafeChat.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(safechat_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -978,7 +978,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">SafeChat.db</a> - Conversations</h2>\n'''.format(os.path.abspath("./{}/net.safechat.app/databases/SafeChat.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(safechat_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -987,7 +987,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">SafeChat.db</a> - Messages</h2>\n'''.format(os.path.abspath("./{}/net.safechat.app/databases/SafeChat.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(safechat_[4])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -996,7 +996,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">SafeChat.db</a> - Users</h2>\n'''.format(os.path.abspath("./{}/net.safechat.app/databases/SafeChat.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(safechat_[5])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1005,7 +1005,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">download_tasks.db</a> - Tasks</h2>\n'''.format(os.path.abspath("./{}/net.safechat.app/databases/download_tasks.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(safechat_[6])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1014,7 +1014,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(safechat_[7])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1030,7 +1030,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(mindschat_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1039,7 +1039,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">im.vector.matrix.android.keys.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindschat_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1048,7 +1048,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">emoji-recent-manager.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.minds.chat/shared_prefs/emoji-recent-manager.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindschat_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1057,7 +1057,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(safechat_[7])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
@@ -1071,7 +1071,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(mindsmobile_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1080,7 +1080,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">RKStorage</a> - User</h2>\n'''.format(os.path.abspath("./{}/com.minds.mobile/databases/RKStorage".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindsmobile_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1089,7 +1089,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">minds1.db</a> - Comments</h2>\n'''.format(os.path.abspath("./{}/com.minds.mobile/databases/minds1.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindsmobile_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1098,7 +1098,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">minds1.db</a> - Feeds</h2>\n'''.format(os.path.abspath("./{}/com.minds.mobile/databases/minds1.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindsmobile_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1107,7 +1107,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">minds1.db</a> - Entities</h2>\n'''.format(os.path.abspath("./{}/com.minds.mobile/databases/minds1.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mindsmobile_[4])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1116,7 +1116,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[5])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
@@ -1127,7 +1127,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">RKStorage</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/databases/RKStorage".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[0])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1136,7 +1136,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">rocketUser.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/shared_prefs/rocketUser.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1145,7 +1145,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">io.invertase.firebase.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/shared_prefs/io.invertase.firebase.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1154,7 +1154,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">com.google.android.gms.measurement.prefs.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1163,7 +1163,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.wimkin.com.db.db</a> - Subscribers</h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/chatplus-chat.wimkin.com.db.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[4])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1172,7 +1172,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.wimkin.com.db.db</a> - Rooms</h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/chatplus-chat.wimkin.com.db.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[5])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1181,7 +1181,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.wimkin.com.db.db</a> - Messages</h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/chatplus-chat.wimkin.com.db.db".format(foldername))))
 		df1 = pd.DataFrame.from_dict(wimkin_[6])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1193,7 +1193,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(wimkin_[7])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1202,7 +1202,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(wimkin_[8])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
@@ -1216,7 +1216,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = pd.DataFrame.from_dict(clouthub_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
 		df1 = df1.style.format({"Filenames":fun})
-		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1225,7 +1225,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">com.amplitude.api</a></h2>\n'''.format(os.path.abspath("./{}/com.clouthub.clouthub/databases/com.amplitude.api".format(foldername))))
 		df1 = pd.DataFrame.from_dict(clouthub_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1234,7 +1234,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">Clouthub.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.clouthub.clouthub/shared_prefs/Clouthub.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(clouthub_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1243,7 +1243,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(clouthub_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
@@ -1254,7 +1254,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Contact</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[0])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1263,7 +1263,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Groups</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1272,7 +1272,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Post</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[2])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1281,7 +1281,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Comment</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1291,7 +1291,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Contact</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		f.write("<h2>app_database - Chat</h2>\n")
 		df1 = pd.DataFrame.from_dict(mewe_[4])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1300,7 +1300,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Threads</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[5])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1309,7 +1309,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">app_database</a> - Thread Participant</h2>\n'''.format(os.path.abspath("./{}/com.mewe/databases/app_database".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[6])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1318,7 +1318,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">SGSession.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.mewe/shared_prefs/SGSession.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[7])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1327,7 +1327,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">AppSession.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.mewe/shared_prefs/AppSession.xml".format(foldername))))
 		df1 = pd.DataFrame.from_dict(mewe_[8])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1336,7 +1336,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	else:
 		f.write("<h2>Hash Table</h2>\n")
 		df1 = pd.DataFrame.from_dict(mewe_[9])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide_index().render(uuid='t03')
+		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
@@ -1380,15 +1380,57 @@ def hash_check(file):											#Re-hashes tar file to check integrity
 		print("SHA256:",check_sha256,": Not Matched")
 		check_sha256 += " : Not Matched"
 
+def selection():
+	print("\nApplications:")
+	installedApps = []
+	apps = os.listdir("./{}/".format(foldername))
+	ct = 1
+	for i in apps:
+		if os.path.isdir("./{}/{}".format(foldername,i)):
+			print(ct, i)
+			ct+=1
+			installedApps.append(i)
+
+	selectedApps = []
+	
+	def select():
+		print("\nEx: 'ALL' or '1259'")
+		selection = input("Select which apps you want: ")	
+		if selection == 'ALL' or selection.isnumeric():
+			return selection
+		else:
+			print("\n\nSelection format is wrong. Please try again.")
+			select()
+
+	conv = {'com.gettr.gettr':0,'net.safechat.app':0,'com.minds.chat':0,'com.minds.mobile':0,'com.wimkin.android':0,'com.clouthub.clouthub':0,'com.mewe':0}
+	
+	selection = select()
+	
+	if selection == 'ALL':
+		selectedApps = installedApps
+	else:
+		selection = list(selection)
+		for sel in selection:
+			try:
+				selectedApps.append(installedApps[int(sel)-1])
+			except:
+				pass
+
+	for i in selectedApps:
+		conv[i] = 1
+
+	return list(conv.values())
+
 def android(file):
 	setup(file)
 	extract(file)
-	gettr_ = gettr()
-	safechat_ = safechat()
-	mindschat_ = minds_chat()
-	mindsmobile_ = minds_mobile()
-	wimkin_ = wimkin()
-	clouthub_ = clouthub()
-	mewe_ = mewe()
+	prt = selection()
+	gettr_ = gettr(prt[0])
+	safechat_ = safechat(prt[1])
+	mindschat_ = minds_chat(prt[2])
+	mindsmobile_ = minds_mobile(prt[3])
+	wimkin_ = wimkin(prt[4])
+	clouthub_ = clouthub(prt[5])
+	mewe_ = mewe(prt[6])
 	hash_check(file)
 	report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_)
