@@ -9,8 +9,9 @@ Go to the releases to download either the Windows or Mac versions. For Mac it is
 To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:
 
 ```bash
-$ python -m venv ./virtualenv (use "python3" if multiple versions are installed)
+$ python -m venv ./virtualenv
 ```
+(use "python3" if multiple versions are installed)
 
 ### Activate/Deactivate Environment:
 
