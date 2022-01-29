@@ -9,7 +9,7 @@ Alternative Social Networking Applications Analysis Tool (ASNAAT)
 
 ### Download:
 >Go to the releases to download either the Windows or Mac versions. 
->* For Mac it is important to put the tool in your users folder (/Users/[Username]/[Place-Tool-Here]).
+>* For Mac it is important to put the tool in your users folder (/Users/[Username]/ASNAAT-Mac/).
 
 ### Virtual Environment:
 >To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:<br /><br />
