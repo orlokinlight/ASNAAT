@@ -50,8 +50,8 @@ Executing the tool is very simple and straight forward.
 The tool is setup to use default wordlists in order to provided a tailored report file documenting what we believe to be the most important data for an investigation. However, if you wish to use your own wordlist there is a option to do so. (NOTE: Using your own wordlist will only extract artifacts found. The report won't have a detailed analysis.) The image type that this tool is made for are TAR files. The following options are available:
 
 ```bash
-Usage:   ASNAAT.py [options] <inputfile>
-Example: ASNAAT.py -a Apple.tar
+Usage:   python ASNAAT.py [options] <inputfile>
+Example: python ASNAAT.py -a Apple.tar
 Options:
          -h, --help
          -a            apple image tar
