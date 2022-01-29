@@ -378,7 +378,7 @@ def minds_chat(prt):
 
 def minds_mobile(prt):
 	if os.path.isdir('./{}/com.minds.mobile'.format(foldername)):
-		print("\nMinds Mobile:\n")
+		print("\nMinds Mobile:\n") if prt == 1 else None
 
 	_FILES,_USR,_COMMENT,_FEED,_ENTITIES={},{},{},{},{}
 	_HASHES = {"Filename":[],"SHA256":[]}
