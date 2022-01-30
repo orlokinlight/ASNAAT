@@ -33,16 +33,20 @@ def extract(file):				#Extracts files from wordlist
 	global extraction_time
 	start_time = time.time()
 	allowedApps = ['com.clouthub.clouthub','com.gettr.gettr','com.mewe','com.minds.chat','com.minds.mobile','com.wimkin.android','net.safechat.app']
-	
 	tar = tarfile.open(file)												#Opens the provided tar image
 	mem = tar.getmembers()
 
 	def members(sub):
 		l = len("data/data/{}/".format(sub))
 		for member in mem:
-			if member.path.startswith("data/data/{}/".format(sub)):
-				member.path = member.path[l:]
-				yield member
+			if sub == 'net.safechat.app':
+				if member.path.startswith("data/data/{}/".format(sub)) and '/code_cache/' not in member.path:
+					member.path = member.path[l:]
+					yield member
+			else:
+				if member.path.startswith("data/data/{}/".format(sub)):
+					member.path = member.path[l:]
+					yield member
 
 	for i in allowedApps:
 		tar.extractall(members=members(i),path="./{}/{}".format(foldername,i))
@@ -354,7 +358,7 @@ def minds_chat(prt):
 			_KEYS["Name"].append(dict(i)["@name"])
 			_KEYS["Value"].append(dict(i)["#text"])
 
-		prnt("Keys:",_KEYS,2) if prt == 1 else None
+		#prnt("Keys:",_KEYS,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -545,7 +549,7 @@ def wimkin(prt):
 					except:
 						_PREF["Value"].append(d['#text'])
 
-		prnt("Prefs:",_PREF,2) if prt == 1 else None
+		#prnt("Prefs:",_PREF,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -656,7 +660,7 @@ def clouthub(prt):
 			_SERV["Key"].append(i[0])
 			_SERV["Value"].append(i[1])
 			
-		prnt("com.amplitude.api:",_SERV,2) if prt == 1 else None
+		#prnt("com.amplitude.api:",_SERV,2) if prt == 1 else None
 	
 	#===================================================
 	#===================================================
@@ -830,7 +834,9 @@ def mewe(prt):
 				_PARTS["Keys"].append('phone')
 				_PARTS["Values"].append(jsn['phone']) if jsn['phone'] else _PARTS["Values"].append("")
 				_PARTS["Keys"].append('primaryPhoneNumber')
-				_PARTS["Values"].append(jsn['primaryPhoneNumber']) if jsn['primaryPhoneNumber'] else _PARTS["Values"].append("")
+				_PARTS["Values"].append(jsn['primaryPhoneNumber']) if 'primaryPhoneNumber' in jsn else _PARTS["Values"].append("None")
+				_PARTS["Keys"].append('primaryEmail')
+				_PARTS["Values"].append(jsn['primaryEmail']) if 'primaryEmail' in jsn else _PARTS["Values"].append("None")
 
 		prnt("SGSession.xml:",_PARTS,2) if prt == 1 else None
 	
@@ -849,7 +855,7 @@ def mewe(prt):
 			_PARTS2["Keys"].append(dict(i)["@name"])
 			_PARTS2["Values"].append(dict(i)["#text"]) if dict(i)["#text"] else _PARTS["Values"].append("")
 				
-		prnt("AppSession.xml",_PARTS2,2) if prt == 1 else None
+		#prnt("AppSession.xml",_PARTS2,2) if prt == 1 else None
 
 	return [_CONTACT,_GROUPS,_POST,_COMMENT,_CHATS,_THREADS,_THREADSPART,_PARTS,_PARTS2,_HASHES]
 
@@ -922,7 +928,13 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	if not gettr_[4]:
 		pass
 	else:
-		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_recents_file.xml</a> & <a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_searches_file.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_recents_file.xml".format(foldername)),os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_searches_file.xml".format(foldername))))
+		if 'recent_gif_ids' in gettr_[4]['Key'] and 'recent_searches' in gettr_[4]['Key']:
+			f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_recents_file.xml</a> & <a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_searches_file.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_recents_file.xml".format(foldername)),os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_searches_file.xml".format(foldername))))
+		elif 'recent_gif_ids' in gettr_[4]['Key'] and 'recent_searches' not in gettr_[4]['Key']:
+			f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_recents_file.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_recents_file.xml".format(foldername))))
+		elif 'recent_searches' in gettr_[4]['Key'] and 'recent_gif_ids' not in gettr_[4]['Key']: 
+			f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">giphy_searches_file.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.gettr.gettr/shared_prefs/giphy_searches_file.xml".format(foldername))))
+		
 		df1 = pd.DataFrame.from_dict(gettr_[4])
 		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
@@ -1034,14 +1046,14 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
-	if not mindschat_[1]:
-		pass
-	else:
-		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">im.vector.matrix.android.keys.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml".format(foldername))))
-		df1 = pd.DataFrame.from_dict(mindschat_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
-		df1 = df1.replace("T_t03","t03")
-		f.write(df1)
+	#if not mindschat_[1]:
+	#	pass
+	#else:
+	#	f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">im.vector.matrix.android.keys.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml".format(foldername))))
+	#	df1 = pd.DataFrame.from_dict(mindschat_[1])
+	#	df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+	#	df1 = df1.replace("T_t03","t03")
+	#	f.write(df1)
 
 	if not mindschat_[2]:
 		pass
@@ -1149,14 +1161,14 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
-	if not wimkin_[3]:
-		pass
-	else:
-		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">com.google.android.gms.measurement.prefs.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml".format(foldername))))
-		df1 = pd.DataFrame.from_dict(wimkin_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
-		df1 = df1.replace("T_t03","t03")
-		f.write(df1)
+	#if not wimkin_[3]:
+	#	pass
+	#else:
+	#	f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">com.google.android.gms.measurement.prefs.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml".format(foldername))))
+	#	df1 = pd.DataFrame.from_dict(wimkin_[3])
+	#	df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+	#	df1 = df1.replace("T_t03","t03")
+	#	f.write(df1)
 
 	if not wimkin_[4]:
 		pass
@@ -1220,14 +1232,14 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
-	if not clouthub_[1]:
-		pass
-	else:
-		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">com.amplitude.api</a></h2>\n'''.format(os.path.abspath("./{}/com.clouthub.clouthub/databases/com.amplitude.api".format(foldername))))
-		df1 = pd.DataFrame.from_dict(clouthub_[1])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
-		df1 = df1.replace("T_t03","t03")
-		f.write(df1)
+	#if not clouthub_[1]:
+	#	pass
+	#else:
+	#	f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">com.amplitude.api</a></h2>\n'''.format(os.path.abspath("./{}/com.clouthub.clouthub/databases/com.amplitude.api".format(foldername))))
+	#	df1 = pd.DataFrame.from_dict(clouthub_[1])
+	#	df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+	#	df1 = df1.replace("T_t03","t03")
+	#	f.write(df1)
 
 	if not clouthub_[2]:
 		pass
@@ -1322,14 +1334,14 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
-	if not mewe_[8]:
-		pass
-	else:
-		f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">AppSession.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.mewe/shared_prefs/AppSession.xml".format(foldername))))
-		df1 = pd.DataFrame.from_dict(mewe_[8])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
-		df1 = df1.replace("T_t03","t03")
-		f.write(df1)
+	#if not mewe_[8]:
+	#	pass
+	#else:
+	#	f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">AppSession.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.mewe/shared_prefs/AppSession.xml".format(foldername))))
+	#	df1 = pd.DataFrame.from_dict(mewe_[8])
+	#	df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+	#	df1 = df1.replace("T_t03","t03")
+	#	f.write(df1)
 
 	if not mewe_[9]["Filename"]:
 		pass
@@ -1393,29 +1405,27 @@ def selection():
 
 	selectedApps = []
 	
-	def select():
+	def select(instApps):
+		selected = []
+		selection = ""
 		print("\nEx: 'ALL' or '1259'")
-		selection = input("Select which apps you want: ")	
-		if selection == 'ALL' or selection.isnumeric():
-			return selection
+		selection = input("Select which apps you want: ")
+		if selection == 'ALL' or selection == 'all' or selection.isnumeric():
+			if selection == 'ALL' or selection == 'all':
+				return instApps
+			else:
+				selection = list(selection)
+				for sel in selection:
+					selected.append(instApps[int(sel)-1])
+				return selected
 		else:
 			print("\n\nSelection format is wrong. Please try again.")
-			select()
+			return select(installedApps)
 
 	conv = {'com.gettr.gettr':0,'net.safechat.app':0,'com.minds.chat':0,'com.minds.mobile':0,'com.wimkin.android':0,'com.clouthub.clouthub':0,'com.mewe':0}
 	
-	selection = select()
+	selectedApps = select(installedApps)
 	
-	if selection == 'ALL':
-		selectedApps = installedApps
-	else:
-		selection = list(selection)
-		for sel in selection:
-			try:
-				selectedApps.append(installedApps[int(sel)-1])
-			except:
-				pass
-
 	for i in selectedApps:
 		conv[i] = 1
 
