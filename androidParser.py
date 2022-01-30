@@ -829,8 +829,6 @@ def mewe(prt):
 				_PARTS["Values"].append(jsn['id']) if jsn['id'] else _PARTS["Values"].append("")
 				_PARTS["Keys"].append('lastName')
 				_PARTS["Values"].append(jsn['lastName']) if jsn['lastName'] else _PARTS["Values"].append("")
-				_PARTS["Keys"].append('lastName')
-				_PARTS["Values"].append(jsn['lastName']) if jsn['lastName'] else _PARTS["Values"].append("")
 				_PARTS["Keys"].append('phone')
 				_PARTS["Values"].append(jsn['phone']) if jsn['phone'] else _PARTS["Values"].append("")
 				_PARTS["Keys"].append('primaryPhoneNumber')

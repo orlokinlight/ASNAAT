@@ -184,7 +184,10 @@ def parler(prt):
 		
 		rows = sql(path,"SELECT value from ItemTable where key='username';")
 		_USER = {}
-		_USER['username'] = [rows[0][0].decode('utf-16le')]
+		try:
+			_USER['username'] = [rows[0][0].decode('utf-16le')]
+		except:
+			_USER['username'] = ["None"]
 		
 		prnt("https_parler.com_0.localstorage:",_USER,1) if prt == 1 else None
 
@@ -739,20 +742,22 @@ def gettr(prt):
 	#===================================================
 
 	if os.path.isdir("./{}/Gettr".format(foldername)):
-		path = glob.glob("./{}/Gettr/private_*.db".format(foldername))[0]
+		path = glob.glob("./{}/Gettr/private_*.db".format(foldername))
+		if len(path) > 0:
+			path = path[0]
 
-		_HASHES["Filename"].append(os.path.basename(path))
-		_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
-		
-		user = sql(path,"SELECT key,value from kv where key='history/followed/list' or key='search/global/userlist'")
-
-		_USER = {'Key':[],'Value':[]}
-
-		for i in user:
-			_USER['Key'].append(i[0])
-			_USER['Value'].append(i[1])
+			_HASHES["Filename"].append(os.path.basename(path))
+			_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
 			
-		prnt(os.path.basename(path),_USER,2) if prt == 1 else None
+			user = sql(path,"SELECT key,value from kv where key='history/followed/list' or key='search/global/userlist'")
+
+			_USER = {'Key':[],'Value':[]}
+
+			for i in user:
+				_USER['Key'].append(i[0])
+				_USER['Value'].append(i[1])
+				
+			prnt(os.path.basename(path),_USER,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================
@@ -1209,6 +1214,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		pass
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">https_parler.com_0.localstorage</a></h2>\n'''.format(os.path.abspath("./{}/Parler/https_parler.com_0.localstorage".format(foldername))))
+		print(parler_[0])
 		df1 = pd.DataFrame.from_dict(parler_[0])
 		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
@@ -1248,10 +1254,10 @@ def setup(file):
 	foldername = case+"-Apple"
 	examiner = input("Enter examiner name:")
 	image_size = size(os.path.getsize(file))
-	md5 = hashlib.md5(open(file,'rb').read()).hexdigest()
-	print("MD5:",md5)
-	sha256 = hashlib.sha256(open(file,'rb').read()).hexdigest()
-	print("SHA256:",sha256)
+	#md5 = hashlib.md5(open(file,'rb').read()).hexdigest()
+	#print("MD5:",md5)
+	#sha256 = hashlib.sha256(open(file,'rb').read()).hexdigest()
+	#print("SHA256:",sha256)
 
 def hash_check(file):												#Re-hashes tar file to check integrity
 	global check_md5,check_sha256
@@ -1272,6 +1278,7 @@ def hash_check(file):												#Re-hashes tar file to check integrity
 		print("SHA256:",check_sha256,": Not Matched")
 		check_sha256 += " : Not Matched"
 
+
 def selection():
 	print("\nApplications:")
 	installedApps = []
@@ -1285,34 +1292,31 @@ def selection():
 
 	selectedApps = []
 	
-	def select():
+	def select(instApps):
+		selected = []
+		selection = ""
 		print("\nEx: 'ALL' or '1259'")
-		selection = input("Select which apps you want: ")	
-		if selection == 'ALL' or selection.isnumeric():
-			return selection
+		selection = input("Select which apps you want: ")
+		if selection == 'ALL' or selection == 'all' or selection.isnumeric():
+			if selection == 'ALL' or selection == 'all':
+				return instApps
+			else:
+				selection = list(selection)
+				for sel in selection:
+					selected.append(instApps[int(sel)-1])
+				return selected
 		else:
 			print("\n\nSelection format is wrong. Please try again.")
-			select()
+			return select(installedApps)
 
 	conv = {'Parler':0,'MeWe':0,'CloutHub':0,'1st2nd':0,'Minds(Mobile)':0,'Minds(Chat)':0,'SafeChat':0,'Gettr':0}
 	
-	selection = select()
+	selectedApps = select(installedApps)
 	
-	if selection == 'ALL':
-		selectedApps = installedApps
-	else:
-		selection = list(selection)
-		for sel in selection:
-			try:
-				selectedApps.append(installedApps[int(sel)-1])
-			except:
-				pass
-
 	for i in selectedApps:
 		conv[i] = 1
 
 	return list(conv.values())
-
 
 def apple(file):
 	setup(file)
