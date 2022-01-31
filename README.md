@@ -4,7 +4,7 @@ Alternative Social Networking Applications Analysis Tool (ASNAAT)
 ## Setup
 
 ### Requirements:
->* Python 3.10
+>* Python 3.8+
 >* Any Chromium Browser for best results. (Use to open report)
 
 ### Download:
