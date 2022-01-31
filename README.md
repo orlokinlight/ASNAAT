@@ -41,6 +41,9 @@ If you'd like to remove the added url scheme protocols from the registry run del
 
 ### Mac:
 >1. In the "Protocols" folder, drag db_proto and xml_proto to the Macs Applications folder.
+>2. Once in the Applications folder run the following command against both apps:<br />
+>```xattr -d -r com.apple.quarantine db_proto```<br />
+>```xattr -d -r com.apple.quarantine xml_proto```
 
 If you'd like to remove the added url scheme protocols just delete the files.
 
