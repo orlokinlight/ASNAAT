@@ -2,7 +2,7 @@ import os
 
 db = os.path.abspath("./Protocols/db.bat")
 xml = os.path.abspath("./Protocols/xml.bat")
-db_brow = os.path.abspath("./DB_Browser/DB_Browser.exe").replace("\\","\\\\")
+db_brow = os.path.abspath("./DB_Browser/DB_Browser.exe").replace("\\","\\\\").replace(" ","^ ")
 
 f = open("./Protocols/add_protocols.bat", "w")
 f.write("reg add HKEY_CLASSES_ROOT\\db-open /t REG_SZ /d \"URL:DB_Browser\" /f\n")

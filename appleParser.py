@@ -564,14 +564,16 @@ def minds_mobile(prt):
 
 	if os.path.isdir(path):
 		_IMG = {'Filenames':[],"Location":[]}
-
+		full = ""
 		for count, filename in enumerate(os.listdir(path)):
 			if ".jpg" not in filename:
-				dst = f"{filename}.jpg"
+				dst1 = f"{filename}.jpg"
 				src =f"{path}/{filename}"
-				dst =f"{path}/{dst}"	
+				dst =f"{path}/{dst1}"	
 				os.rename(src, dst)
-			full = os.path.join(path,filename)
+				full = os.path.join(path,dst1)
+			else:
+				full = os.path.join(path,filename)
 			_HASHES["Filename"].append(os.path.basename(full))
 			_HASHES["SHA256"].append(hashlib.sha256(open(full,'rb').read()).hexdigest())
 			_IMG['Filenames'].append(os.path.basename(full))
@@ -1214,7 +1216,6 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		pass
 	else:
 		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">https_parler.com_0.localstorage</a></h2>\n'''.format(os.path.abspath("./{}/Parler/https_parler.com_0.localstorage".format(foldername))))
-		print(parler_[0])
 		df1 = pd.DataFrame.from_dict(parler_[0])
 		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
@@ -1254,10 +1255,10 @@ def setup(file):
 	foldername = case+"-Apple"
 	examiner = input("Enter examiner name:")
 	image_size = size(os.path.getsize(file))
-	#md5 = hashlib.md5(open(file,'rb').read()).hexdigest()
-	#print("MD5:",md5)
-	#sha256 = hashlib.sha256(open(file,'rb').read()).hexdigest()
-	#print("SHA256:",sha256)
+	md5 = hashlib.md5(open(file,'rb').read()).hexdigest()
+	print("MD5:",md5)
+	sha256 = hashlib.sha256(open(file,'rb').read()).hexdigest()
+	print("SHA256:",sha256)
 
 def hash_check(file):												#Re-hashes tar file to check integrity
 	global check_md5,check_sha256
