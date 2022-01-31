@@ -84,7 +84,6 @@ def extract(file):
 	wordlist = {'com.parler.parler':'Parler.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','net.safechat.app':'SafeChat.txt','app.howly.ios':'1st2nd.txt','com.clouthub.clouthubapp':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt'}
 	
 	installedApps = list(appPaths.keys())
-	#print(appPaths)	
 	selectedApps = installedApps
 
 	files = {}
@@ -100,7 +99,16 @@ def extract(file):
 		files[a] = words
 
 	for name in names:
+
 		for a in selectedApps:
+			if a == 'net.safechat.app' and 'Shared/AppGroup/' in name:	
+				if 'SafeChat.db' in name:
+					index = names.index(name)
+					if members[index].isreg():
+						path = pathlib.PurePath(members[index].name)
+						members[index].name = os.path.basename(members[index].name)
+						tar.extract(members[index],'./{}/SafeChat'.format(foldername))
+
 			pp = 'Application/' + appPaths[a]
 			for word in files[a]:
 				if word in name and pp in name:
@@ -457,7 +465,7 @@ def clouthub(prt):
 			_SERV["Key"].append(i[0])
 			_SERV["Value"].append(i[1])
 			
-		prnt("com.amplitude.api:",_SERV,2) if prt == 1 else None
+		#prnt("com.amplitude.api:",_SERV,2) if prt == 1 else None
 
 	return [_FILES1,_FILES2,_REC,_SERV,_HASHES]
 	
