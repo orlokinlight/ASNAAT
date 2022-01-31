@@ -836,7 +836,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 	f.write('''<button class="tablinks" onclick="openCity(event, 'SafeChat')">SafeChat</button>''')
 	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsChat')">Minds Chat</button>''')
 	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsMobile')">Minds Mobile</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, '1st2nd')">1st2nd</button>''')
+	f.write('''<button class="tablinks" onclick="openCity(event, '1st2nd')">2nd1st</button>''')
 	f.write('''<button class="tablinks" onclick="openCity(event, 'CloutHub')">CloutHub</button>''')
 	f.write('''<button class="tablinks" onclick="openCity(event, 'MeWe')">MeWe</button>''')
 	f.write('''<button class="tablinks" onclick="openCity(event, 'Parler')">Parler</button>''')
@@ -1121,14 +1121,14 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 
-	if not clouthub_[3]:
-		pass
-	else:
-		f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">com.amplitude.database</a></h2>\n'''.format(os.path.abspath("./{}/CloutHub/com.amplitude.database".format(foldername))))
-		df1 = pd.DataFrame.from_dict(clouthub_[3])
-		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
-		df1 = df1.replace("T_t03","t03")
-		f.write(df1)
+	#if not clouthub_[3]:
+	#	pass
+	#else:
+	#	f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">com.amplitude.database</a></h2>\n'''.format(os.path.abspath("./{}/CloutHub/com.amplitude.database".format(foldername))))
+	#	df1 = pd.DataFrame.from_dict(clouthub_[3])
+	#	df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+	#	df1 = df1.replace("T_t03","t03")
+	#	f.write(df1)
 
 	if not clouthub_[4]["Filename"]:
 		pass
