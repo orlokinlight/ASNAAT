@@ -40,7 +40,7 @@ This adds two custom url scheme protocols (db-open:// and xml-open://). It allow
 If you'd like to remove the added url scheme protocols from the registry run del_protocols.bat as Administrator
 
 ### Mac:
->1. ```sh Protocols.sh```
+>1. ```$ sh Protocols.sh```
 >2. In the "Protocols" folder, drag db_proto and xml_proto to the Macs Applications folder.
 
 If you'd like to remove the added url scheme protocols just delete the files.
