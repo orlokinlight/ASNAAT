@@ -48,7 +48,7 @@ If you'd like to remove the added url scheme protocols just delete the files.
 ## Command line arguments
 
 Executing the tool is very simple and straight forward. 
-The tool is setup to use default wordlists in order to provided a tailored report file documenting what we believe to be the most important data for an investigation. However, if you wish to use your own wordlist there is a option to do so. (NOTE: Using your own wordlist will only extract artifacts found. The report won't have a detailed analysis.) The image type that this tool is made for are TAR files. The following options are available:
+The tool is setup to use default wordlists in order to provided a tailored report file documenting what we believe to be the most important data for an investigation. The image type that this tool is made for are TAR files. The following options are available:
 
 ```bash
 Usage:   python ASNAAT.py [options] <inputfile>
@@ -62,4 +62,4 @@ Options:
 Upon execution of the tool with the necessary options, the tool will ask for a Case Number and name of Examiner to preserve the chain of custody. Additionally, there is a built in feature to hash the TAR files before and after execution of the tool to ensure that the data has not been tampered.
 
 ## Report & Artifact Generation
-Once the tool is run, a customized report is generated for either Android or Apple. Currently it only supports documentation for the information we deemed important to convey. However, our tool extracts and separates the files defined in the wordlists to a folder named after the case file and image source type (ex: 00001-Apple).
+Once the tool is run, a customized report is generated for either Android or Apple. Currently it only supports documentation for the information we deemed important to convey. However, our tool extracts and separates the files defined in wordlists to a folder named after the case file and image source type (ex: 00001-Apple).
