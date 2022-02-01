@@ -75,17 +75,36 @@ def extract(file):
 			for row in rows:
 				if app == row[0]:
 					p = row[1].find(b'/Data/Application/')
-					appPaths[app] = row[1][p+18:p+19+35].decode("utf-8")
+					appPaths[app] = [row[1][p+18:p+19+35].decode("utf-8")]
+					appPaths[app].append([])
 
 	except:
 		print("Error with {}".format(path))
 	
-	conv = {'com.parler.parler':'Parler','com.minds.chat':'Minds(Chat)','com.minds.mobile':'Minds(Mobile)','net.safechat.app':'SafeChat','app.howly.ios':'1st2nd','com.clouthub.clouthubapp':'CloutHub','com.gettr.gettr':'Gettr','com.mewe':'MeWe'}
-	wordlist = {'com.parler.parler':'Parler.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','net.safechat.app':'SafeChat.txt','app.howly.ios':'1st2nd.txt','com.clouthub.clouthubapp':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt'}
+	AppGroup = {'parler':'com.parler.parler','minds.chat':'com.minds.chat','minds.mobile':'com.minds.mobile','safechat':'net.safechat.app','howly':'app.howly.ios','clouthub':'com.clouthub.clouthubapp','gettr':'com.gettr.gettr','mewe':'com.mewe'}
 	
+
+	for name in names:
+		if 'Shared/AppGroup/' in name and '.com.apple.mobile_container_manager.metadata.plist' in name:
+			index = names.index(name)
+			if members[index].isreg():
+				path = pathlib.PurePath(members[index].name)
+				members[index].name = os.path.basename(members[index].name)
+				tar.extract(members[index],'./{}/Test/'.format(foldername))
+				f = pl_open('./{}/Test/.com.apple.mobile_container_manager.metadata.plist'.format(foldername))
+				for i in list(AppGroup.keys()):
+					if i in f['MCMMetadataIdentifier']:
+						appPaths[AppGroup[i]][1].append(path.parent.name)
+	os.remove('./{}/Test/.com.apple.mobile_container_manager.metadata.plist'.format(foldername))
+	os.rmdir('./{}/Test/'.format(foldername))
+	
+	conv = {'com.parler.parler':'Parler','com.minds.chat':'Minds(Chat)','com.minds.mobile':'Minds(Mobile)','net.safechat.app':'SafeChat','app.howly.ios':'2nd1st','com.clouthub.clouthubapp':'CloutHub','com.gettr.gettr':'Gettr','com.mewe':'MeWe'}
+	wordlist = {'com.parler.parler':'Parler.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','net.safechat.app':'SafeChat.txt','app.howly.ios':'1st2nd.txt','com.clouthub.clouthubapp':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt'}
+
 	installedApps = list(appPaths.keys())
 	selectedApps = installedApps
 
+	
 	files = {}
 	for a in selectedApps:
 		words = []
@@ -101,15 +120,20 @@ def extract(file):
 	for name in names:
 
 		for a in selectedApps:
-			if a == 'net.safechat.app' and 'Shared/AppGroup/' in name:	
-				if 'SafeChat.db' in name:
-					index = names.index(name)
-					if members[index].isreg():
-						path = pathlib.PurePath(members[index].name)
-						members[index].name = os.path.basename(members[index].name)
-						tar.extract(members[index],'./{}/SafeChat'.format(foldername))
+			for i in appPaths[a][1]:
+				for j in range(len(i) and len(i) > 0):
+					pp = 'Shared/AppGroup/' + appPaths[a][1][j]
+					for word in files[a]:
+						if word in name and pp in name:
+							index = names.index(name)
+							if members[index].isreg():
+								path = pathlib.PurePath(members[index].name)
+								members[index].name = os.path.basename(members[index].name)
+								if path.parent.name in appPaths[a][1][j]:
+									tar.extract(members[index],'./{}/{}'.format(foldername,conv[a]))
+						
 
-			pp = 'Application/' + appPaths[a]
+			pp = 'Application/' + appPaths[a][0]
 			for word in files[a]:
 				if word in name and pp in name:
 					index = names.index(name)
@@ -217,7 +241,6 @@ def parler(prt):
 		prnt("Tmp:",_FILES,1) if prt == 1 else None
 
 	return [_USER,_FILES,_HASHES]
-
 
 def mewe(prt):
 	if os.path.isdir('./{}/Mewe'.format(foldername)):
@@ -345,8 +368,8 @@ def mewe(prt):
 	return [_REC,_RES,_FEED,_DM,_FILES1,_FILES2,_HASHES]
 
 def _1st2nd(prt):
-	if os.path.isdir('./{}/1st2nd'.format(foldername)):
-		print("1st2nd:") if prt == 1 else None
+	if os.path.isdir('./{}/2nd1st'.format(foldername)):
+		print("2nd1st:") if prt == 1 else None
 
 	_FILES={}
 	_HASHES = {"Filename":[],"SHA256":[]}
@@ -355,9 +378,9 @@ def _1st2nd(prt):
 	#===================================================
 	#===================================================
 
-	path = glob.glob('./{}/1st2nd/Tmp/*'.format(foldername))
+	path = glob.glob('./{}/2nd1st/Tmp/*'.format(foldername))
 	
-	if os.path.isdir('./{}/1st2nd/Tmp'.format(foldername)):
+	if os.path.isdir('./{}/2nd1st/Tmp'.format(foldername)):
 		_FILES = {"Filenames":[],"Location":[]}
 
 		for i in path:
@@ -824,12 +847,9 @@ def gettr(prt):
 
 	return [_FILES1,_USER,_G,_CACHE,_HASHES]
 
-def fun(path):
+def match(path):
 			f_url = os.path.basename(path)
 			return '<a href="{}" target="_blank" rel="noopener noreferrer">{}</a>'.format(path, f_url)	
-
-#def concat(path):
-#	return 'C:\\Program Files\\DB Browser for SQLite\\DB Browser for SQLite.exe {}'.format(path)
 
 def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat_,gettr_):																#Generates report with parsed data
 	copyfile('./style.css', './{}/style.css'.format(foldername))
@@ -840,14 +860,14 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 			Filename: {}<br>Case: {}<br>Timestamp: {}<br>Examiner: {}<br>Image Size: {}<br>Extraction Time: {}<br>Before Analysis:<br>MD5: {}<br>SHA256: {}<br>After Analysis:<br>MD5: {}<br>SHA256: {}</h3></div>".format(foldername,case,timestamp,examiner,image_size,extraction_time,md5,sha256,check_md5,check_sha256))
 	
 	f.write('''<div class="tab">''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'Gettr')" id="defaultOpen">Gettr</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'SafeChat')">SafeChat</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsChat')">Minds Chat</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsMobile')">Minds Mobile</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, '1st2nd')">2nd1st</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'CloutHub')">CloutHub</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MeWe')">MeWe</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'Parler')">Parler</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'Gettr')" id="defaultOpen">Gettr</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'SafeChat')">SafeChat</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsChat')">Minds Chat</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsMobile')">Minds Mobile</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, '1st2nd')">2nd1st</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'CloutHub')">CloutHub</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MeWe')">MeWe</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'Parler')">Parler</button>''')
 	f.write('''</div>''')
 
 	f.write('''<div id="Gettr" class="tabcontent">''')
@@ -859,7 +879,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		gettr_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(gettr_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -938,7 +958,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		safechat_[3].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(safechat_[3])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -950,7 +970,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		safechat_[4].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(safechat_[4])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -975,7 +995,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindschat_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindschat_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -987,7 +1007,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindschat_[1].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindschat_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1011,7 +1031,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindsmobile_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1023,7 +1043,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindsmobile_[1].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1044,7 +1064,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindsmobile_[3].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[3])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1056,7 +1076,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mindsmobile_[4].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[4])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1079,7 +1099,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		firstsecond_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(firstsecond_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1103,7 +1123,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		clouthub_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(clouthub_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1115,7 +1135,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		clouthub_[1].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(clouthub_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1192,7 +1212,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mewe_[4].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mewe_[4])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1204,7 +1224,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		mewe_[5].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mewe_[5])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1236,7 +1256,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		parler_[1].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(parler_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1251,7 +1271,7 @@ def report(parler_,mewe_,clouthub_,firstsecond_,mindsmobile_,mindschat_,safechat
 		f.write(df1)
 	f.write('''</div>''')
 
-	f.write('''<script>function openCity(evt, cityName) {  var i, tabcontent, tablinks;  tabcontent = document.getElementsByClassName("tabcontent");  for (i = 0; i < tabcontent.length; i++) {    tabcontent[i].style.display = "none";  }  tablinks = document.getElementsByClassName("tablinks");  for (i = 0; i < tablinks.length; i++) {    tablinks[i].className = tablinks[i].className.replace(" active", "");  }  document.getElementById(cityName).style.display = "block";  evt.currentTarget.className += " active";}</script>''')	
+	f.write('''<script>function apptabs(evt, appName) {  var i, tabcontent, tablinks;  tabcontent = document.getElementsByClassName("tabcontent");  for (i = 0; i < tabcontent.length; i++) {    tabcontent[i].style.display = "none";  }  tablinks = document.getElementsByClassName("tablinks");  for (i = 0; i < tablinks.length; i++) {    tablinks[i].className = tablinks[i].className.replace(" active", "");  }  document.getElementById(appName).style.display = "block";  evt.currentTarget.className += " active";}</script>''')	
 	
 	f.write("</body></html>")
 	f.close()
@@ -1318,10 +1338,10 @@ def selection():
 			print("\n\nSelection format is wrong. Please try again.")
 			return select(installedApps)
 
-	conv = {'Parler':0,'MeWe':0,'CloutHub':0,'1st2nd':0,'Minds(Mobile)':0,'Minds(Chat)':0,'SafeChat':0,'Gettr':0}
+	conv = {'Parler':0,'MeWe':0,'CloutHub':0,'2nd1st':0,'Minds(Mobile)':0,'Minds(Chat)':0,'SafeChat':0,'Gettr':0}
 	
 	selectedApps = select(installedApps)
-	
+
 	for i in selectedApps:
 		conv[i] = 1
 
