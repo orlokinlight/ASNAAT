@@ -1,9 +1,8 @@
-Columnar
-pandas
-ipython
-xmltodict
-Jinja2
-Pillow
-ipython
-emojis
-hurry.filesize
+Columnar==1.4.1
+pandas==1.4.0
+ipython==8.0.1
+xmltodict==0.12.0
+Jinja2==3.0.3
+Pillow==9.0.0
+emojis==0.6.0
+hurry.filesize==0.9
