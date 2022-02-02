@@ -477,8 +477,8 @@ def clouthub(prt):
 	path = "./{}/CloutHub/com.amplitude.database".format(foldername)
 	
 	if os.path.isfile(path):
-		_HASHES["Filename"].append(os.path.basename(path))
-		_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
+		#_HASHES["Filename"].append(os.path.basename(path))
+		#_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
 		
 		server = sql(path,"SELECT key,value from long_store where key='previous_session_id' or key='last_event_time' UNION SELECT key,value from store")
 			

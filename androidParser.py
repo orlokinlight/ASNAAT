@@ -35,16 +35,26 @@ def extract(file):				#Extracts files from wordlist
 	allowedApps = ['com.clouthub.clouthub','com.gettr.gettr','com.mewe','com.minds.chat','com.minds.mobile','com.wimkin.android','net.safechat.app']
 	tar = tarfile.open(file)												#Opens the provided tar image
 	mem = tar.getmembers()
+	
+	wordlist = {'com.clouthub.clouthub':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','com.wimkin.android':'Wimkin.txt','net.safechat.app':'SafeChat.txt'}
+	
+	files = {}
+	for a in allowedApps:
+		words = []
+		try:																#Tries to open the default wordlist
+			with open('Default_lists/Android/{}'.format(wordlist[a])) as my_file:	
+				for line in my_file:										#Takes words in the wordlist file and creats a list
+					words.append(line[:-1])
+		except FileNotFoundError:											#File not found error
+			print("{} not found".format(wordlist[a]))
+			sys.exit()
+		files[a] = words
 
 	def members(sub):
 		l = len("data/data/{}/".format(sub))
-		for member in mem:
-			if sub == 'net.safechat.app':
-				if member.path.startswith("data/data/{}/".format(sub)) and '/code_cache/' not in member.path:
-					member.path = member.path[l:]
-					yield member
-			else:
-				if member.path.startswith("data/data/{}/".format(sub)):
+		for word in files[sub]:
+			for member in mem:	
+				if member.path.startswith("data/data/{}/".format(sub)) and word in member.path:
 					member.path = member.path[l:]
 					yield member
 
@@ -349,8 +359,8 @@ def minds_chat(prt):
 
 	if os.path.isfile('./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml'.format(foldername)):
 		recent = dict(dict(xml_open('./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml'.format(foldername)))['map'])['string']
-		_HASHES["Filename"].append("im.vector.matrix.android.keys.xml")
-		_HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml'.format(foldername),'rb').read()).hexdigest())
+		#_HASHES["Filename"].append("im.vector.matrix.android.keys.xml")
+		#_HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.minds.chat/shared_prefs/im.vector.matrix.android.keys.xml'.format(foldername),'rb').read()).hexdigest())
 		
 		_KEYS = {"Name":[],"Value":[]}
 		
@@ -534,8 +544,8 @@ def wimkin(prt):
 
 	if os.path.isfile('./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername)):
 		recent = dict(dict(xml_open('./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername)))['map'])
-		_HASHES["Filename"].append("com.google.android.gms.measurement.prefs.xml")
-		_HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername),'rb').read()).hexdigest())
+		#_HASHES["Filename"].append("com.google.android.gms.measurement.prefs.xml")
+		#_HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername),'rb').read()).hexdigest())
 		
 		_PREF = {"Name":[],"Value":[]}
 		l = list(recent.values())
@@ -649,8 +659,8 @@ def clouthub(prt):
 	path = "./{}/com.clouthub.clouthub/databases/com.amplitude.api".format(foldername)
 	
 	if os.path.isfile(path):
-		_HASHES["Filename"].append(os.path.basename(path))
-		_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
+		#_HASHES["Filename"].append(os.path.basename(path))
+		#_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
 		
 		server = sql(path,"SELECT key,value from long_store where key='previous_session_id' or key='last_event_time' UNION SELECT key,value from store")
 			
@@ -844,8 +854,8 @@ def mewe(prt):
 	
 	if os.path.isfile("./{}/com.mewe/shared_prefs/AppSession.xml".format(foldername)):
 		path = dict(dict(xml_open("./{}/com.mewe/shared_prefs/AppSession.xml".format(foldername)))['map'])
-		_HASHES["Filename"].append("AppSession.xml")
-		_HASHES["SHA256"].append(hashlib.sha256(open("./{}/com.mewe/shared_prefs/SGSession.xml".format(foldername),'rb').read()).hexdigest())
+		#_HASHES["Filename"].append("AppSession.xml")
+		#_HASHES["SHA256"].append(hashlib.sha256(open("./{}/com.mewe/shared_prefs/SGSession.xml".format(foldername),'rb').read()).hexdigest())
 		
 		_PARTS2 = {"Keys":[],"Values":[]}
 
@@ -857,7 +867,7 @@ def mewe(prt):
 
 	return [_CONTACT,_GROUPS,_POST,_COMMENT,_CHATS,_THREADS,_THREADSPART,_PARTS,_PARTS2,_HASHES]
 
-def fun(path):
+def match(path):
 			f_url = os.path.basename(path)
 			return '<a href="{}" target="_blank" rel="noopener noreferrer">{}</a>'.format(path, f_url)
 
@@ -871,13 +881,13 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	
 	
 	f.write('''<div class="tab">''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'Gettr')" id="defaultOpen">Gettr</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'SafeChat')">SafeChat</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsChat')">Minds Chat</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MindsMobile')">Minds Mobile</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'Wimkin')">Wimkin</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'CloutHub')">CloutHub</button>''')
-	f.write('''<button class="tablinks" onclick="openCity(event, 'MeWe')">MeWe</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'Gettr')" id="defaultOpen">Gettr</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'SafeChat')">SafeChat</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsChat')">Minds Chat</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsMobile')">Minds Mobile</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'Wimkin')">Wimkin</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'CloutHub')">CloutHub</button>''')
+	f.write('''<button class="tablinks" onclick="apptabs(event, 'MeWe')">MeWe</button>''')
 	f.write('''</div>''')
 
 	
@@ -918,7 +928,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		gettr_[3].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(gettr_[3])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -957,7 +967,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		safechat_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(safechat_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -969,7 +979,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		safechat_[1].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(safechat_[1])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1039,7 +1049,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		mindschat_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindschat_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1066,7 +1076,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		pass
 	else:
 		f.write("<h2>Hash Table</h2>\n")
-		df1 = pd.DataFrame.from_dict(safechat_[7])
+		df1 = pd.DataFrame.from_dict(mindschat_[3])
 		df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1080,7 +1090,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		mindsmobile_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(mindsmobile_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1202,7 +1212,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		wimkin_[7].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(wimkin_[7])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1225,7 +1235,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		clouthub_[0].pop("Filenames")
 		df1 = pd.DataFrame.from_dict(clouthub_[0])
 		df1 = df1.rename(columns={"Location":"Filenames"})
-		df1 = df1.style.format({"Filenames":fun})
+		df1 = df1.style.format({"Filenames":match})
 		df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
@@ -1353,7 +1363,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	f.write('''</div>''')
 
 
-	f.write('''<script>function openCity(evt, cityName) {  var i, tabcontent, tablinks;  tabcontent = document.getElementsByClassName("tabcontent");  for (i = 0; i < tabcontent.length; i++) {    tabcontent[i].style.display = "none";  }  tablinks = document.getElementsByClassName("tablinks");  for (i = 0; i < tablinks.length; i++) {    tablinks[i].className = tablinks[i].className.replace(" active", "");  }  document.getElementById(cityName).style.display = "block";  evt.currentTarget.className += " active";}</script>''')	
+	f.write('''<script>function apptabs(evt, appName) {  var i, tabcontent, tablinks;  tabcontent = document.getElementsByClassName("tabcontent");  for (i = 0; i < tabcontent.length; i++) {    tabcontent[i].style.display = "none";  }  tablinks = document.getElementsByClassName("tablinks");  for (i = 0; i < tablinks.length; i++) {    tablinks[i].className = tablinks[i].className.replace(" active", "");  }  document.getElementById(appName).style.display = "block";  evt.currentTarget.className += " active";}</script>''')	
 
 	
 	f.write("</body></html>")
