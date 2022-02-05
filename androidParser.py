@@ -142,18 +142,20 @@ def gettr(prt):
 	#===================================================
 
 	if os.path.isdir("./{}/com.gettr.gettr/databases".format(foldername)):
-		path = glob.glob('./{}/com.gettr.gettr/databases/private_*.db'.format(foldername))[0]
-		_HASHES["Filename"].append(os.path.basename(path))
-		_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
-		
-		user = sql(path,"SELECT key,value from kv where key='history/followed/list' or key='search/global/userlist'")
+		path = glob.glob('./{}/com.gettr.gettr/databases/private_*.db'.format(foldername))
+		if len(path) > 0:
+			path = path[0]
+			_HASHES["Filename"].append(os.path.basename(path))
+			_HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
+			
+			user = sql(path,"SELECT key,value from kv where key='history/followed/list' or key='search/global/userlist'")
 
-		_USER = {"Type":[],"Info":[]}
-		for i in user:
-			_USER["Type"].append(i[0])
-			_USER["Info"].append(i[1])
+			_USER = {"Type":[],"Info":[]}
+			for i in user:
+				_USER["Type"].append(i[0])
+				_USER["Info"].append(i[1])
 
-		prnt(os.path.basename(path),_USER,2) if prt == 1 else None
+			prnt(os.path.basename(path),_USER,2) if prt == 1 else None
 
 	#===================================================
 	#===================================================

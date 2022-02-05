@@ -264,8 +264,12 @@ def mewe(prt):
 		_REC = {'Username':[],'Name':[],'Phone':[]}
 		_RES = {'Timestamp':[],'Request Key':[],'Hash Value':[]}
 
+		#print(receiver)
 		for i in receiver:
-			d = json.loads(i[0].decode())
+			try:
+				d = json.loads(i[0].decode())
+			except:
+				d = json.loads(i[0])
 			if "firstName" in d.keys():
 				if d["firstName"] + " " + d["lastName"] not in _REC["Name"]:
 					_REC["Name"].append(d["firstName"] + " " + d["lastName"])
