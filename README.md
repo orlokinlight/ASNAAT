@@ -5,11 +5,12 @@ Alternative Social Networking Applications Analysis Tool (ASNAAT)
 
 ### Requirements:
 >* Python 3.8+
->* Any Chromium Browser for best results. (Use to open report)
+>* Any Chromium Browser for best results. (Use to open report)<br/>
+>**NOTE: Don't use Safari**
 
 ### Download:
->Go to the releases to download either the Windows or Mac versions. 
->* For Mac it is important to put the tool in your users folder (/Users/[Username]/ASNAAT-Mac/).
+>Go to the releases to download either the Windows or Mac versions.<br/>
+>**NOTE: For Mac it is important to put the tool in your users folder "/Users/[Username]/ASNAAT-Mac/".**
 
 ### Virtual Environment:
 >To setup this tool, it is advised to configure a virtual environment inside the tool directory. To do this, navigate into the tool's main folder and enter the following commands documented below. These commands will setup a virtual environment inside the directory which will allow you to install the dependencies for this tool:<br /><br />
@@ -35,15 +36,26 @@ This adds two custom url scheme protocols (db-open:// and xml-open://). It allow
 
 ### Windows:
 >1. ```$ python Protocols.py```
->2. Run add_protocols.bat as Administrator<br />
+>2. Go to **ASNAAT-Windows/Protocols/** folder.
+>3. Right click **add_protocols.bat**.
+>4. Click on **Run as administrator**.
+>5. Press **Yes**, if it asks to allow app to make changes to your device.
 
-If you'd like to remove the added url scheme protocols from the registry run del_protocols.bat as Administrator
+To remove:
+>1. Go to **ASNAAT-Windows/Protocols/** folder. 
+>2. Right click **del_protocols.bat**.
+>3. Click on **Run as Administrator**.
+>4. Press **Yes**, if it asks to allow app to make changes to your device.<br />
+>5. A terminal will pop up asking you to permanently delete both registry keys. Type **y** and press **Enter** for both.
 
 ### Mac:
 >1. ```$ sh Protocols.sh```
->2. In the "Protocols" folder, drag db_proto and xml_proto to the Macs Applications folder.
+>2. Go to **/Users/[username]/ASNAAT-Mac/Protocols/** folder.
+>3. Drag **db_proto** and **xml_proto** to the Macs **Applications** folder.
 
-If you'd like to remove the added url scheme protocols just delete the files.
+To remove:
+>1. Go to the Macs **Applications** folder.
+>2. Delete **db_proto** and **xml_proto**.
 
 ## Command line arguments
 
