@@ -35,6 +35,8 @@ Alternative Social Networking Applications Analysis Tool (ASNAAT)
 This adds two custom url scheme protocols (db-open:// and xml-open://). It allows the report to hyperlink SQLite and XML files to open with specific applications.
 
 ### Windows:
+If your reinstalling, go to the remove section to delete the previous URL schemes.
+
 >1. ```$ python Protocols.py```
 >2. Go to **ASNAAT-Windows/Protocols/** folder.
 >3. Right click **add_protocols.bat**.
