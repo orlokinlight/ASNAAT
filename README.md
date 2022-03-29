@@ -1,5 +1,5 @@
 # ASNAAT
-Alternative Social Networking Applications Analysis Tool (ASNAAT)
+Alternative Social Networking Applications Analysis Tool (ASNAAT). This tool is part of a research paper conducted on the digital forensics of alternative social networking applications by Hailey Johnson, Karl Volk, Robert Serafin, Cinthya Grajeda, and Ibrahim Baggili. The research paper was submitted and accepted for presentation and publication at the DFRWS USA 2022 Virtual Conference. Information linking to the paper will be provided soon.
 
 ## Setup
 
