@@ -1,5 +1,5 @@
 # ASNAAT
-Alternative Social Networking Applications Analysis Tool (ASNAAT). This tool is part of a research paper conducted on the digital forensics of alternative social networking applications by Hailey Johnson, Karl Volk, Robert Serafin, Cinthya Grajeda, and Ibrahim Baggili. The research paper was submitted and accepted for presentation and publication at the DFRWS USA 2022 Virtual Conference. Information linking to the paper will be provided soon.
+Alternative Social Networking Applications Analysis Tool (ASNAAT). This tool is part of a research paper conducted on the digital forensics of alternative social networking applications by Hailey Johnson, Karl Volk, Robert Serafin, Cinthya Grajeda, and Ibrahim Baggili. The research paper was submitted and accepted for presentation and publication at the DFRWS USA 2022 Virtual Conference. Paper: Johnson, H., Volk, K., Serafin, R., Grajeda, C., &amp; Baggili, I. (2022, July 8). Alt-tech social forensics: Forensic analysis of Alternative Social Networking Applications. Forensic Science International: Digital Investigation. Retrieved July 12, 2022, from https://www.sciencedirect.com/science/article/pii/S2666281722000877. This work was supported under grant numbers 1900210 and 1921813. A collection of discovered artifacts can be found through the Artifact Genome Project - https://agp.newhaven.edu.
 
 ## Setup
 
