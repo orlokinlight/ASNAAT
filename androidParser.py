@@ -32,11 +32,11 @@ def xml_open(file):
 def extract(file):				#Extracts files from wordlist
 	global extraction_time
 	start_time = time.time()
-	allowedApps = ['com.clouthub.clouthub','com.gettr.gettr','com.mewe','com.minds.chat','com.minds.mobile','com.wimkin.android','net.safechat.app']
+	allowedApps = ['com.clouthub.clouthub','com.gettr.gettr','com.mewe','com.minds.chat','com.minds.mobile','com.truthsocial.android','com.wimkin.android','net.safechat.app']
 	tar = tarfile.open(file)												#Opens the provided tar image
 	mem = tar.getmembers()
 	
-	wordlist = {'com.clouthub.clouthub':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','com.wimkin.android':'Wimkin.txt','net.safechat.app':'SafeChat.txt'}
+	wordlist = {'com.clouthub.clouthub':'Clouthub.txt','com.gettr.gettr':'Gettr.txt','com.mewe':'MeWe.txt','com.minds.chat':'Minds_Chat.txt','com.minds.mobile':'Minds_Mobile.txt','com.truthsocial.android':'Truth_Social.txt','com.wimkin.android':'Wimkin.txt','net.safechat.app':'SafeChat.txt'}
 	
 	files = {}
 	for a in allowedApps:
@@ -481,6 +481,150 @@ def minds_mobile(prt):
 
 	return [_FILES,_USR,_COMMENT,_FEED,_ENTITIES,_HASHES]
 
+def truthsocial(prt):
+    if os.path.isdir('./{}/com.truthsocial.android'.format(foldername)):
+        print("\nTruth Social:\n") if prt == 1 else None
+
+    _SERV,_AUTH,_FEED,_PREF,_MSG,_ROOM,_SUBS,_FILES={},{},{},{},{},{},{},{}
+    _HASHES = {"Filename":[],"SHA256":[]}
+
+    #===================================================
+    #===================================================
+    #===================================================
+
+    path = "./{}/com.truthsocial.android/databases/RKStorage".format(foldername)
+
+    if os.path.isfile(path):
+        _HASHES["Filename"].append(os.path.basename(path))
+        _HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
+        
+        server = sql(path,"SELECT key,value from catalystLocalStorage where key='server_url' or key='SITE_URL_API_VERSION' or key='AUTH_DATA_KEY'")
+
+        _SERV = {"Key":[], "Value":[]}
+
+        for i in server:
+            _SERV["Key"].append(i[0])
+            _SERV["Value"].append(i[1])
+            
+        prnt("RKStorage:",_SERV,2) if prt == 1 else None
+    
+    #===================================================
+    #===================================================
+    #===================================================
+
+    if os.path.isfile('./{}/com.truthsocial.android/shared_prefs/rocketUser.xml'.format(foldername)):
+        recent = dict(dict(xml_open('./{}/com.truthsocial.android/shared_prefs/rocketUser.xml'.format(foldername)))['map'])['string']
+        _HASHES["Filename"].append("rocketUser.xml")
+        _HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.truthsocial.android/shared_prefs/rocketUser.xml'.format(foldername),'rb').read()).hexdigest())
+        
+        _AUTH = {"Name":[],"Value":[]}
+        for i in recent:
+            _AUTH["Name"].append(dict(i)["@name"])
+            _AUTH["Value"].append(dict(i)["#text"])
+
+        prnt("Auth:",_AUTH,2) if prt == 1 else None
+    
+    #===================================================
+    #===================================================
+    #===================================================
+
+    if os.path.isfile('./{}/com.truthsocial.android/shared_prefs/io.invertase.firebase.xml'.format(foldername)):
+        recent = dict(dict(xml_open('./{}/com.truthsocial.android/shared_prefs/io.invertase.firebase.xml'.format(foldername)))['map'])['string']
+        _HASHES["Filename"].append("io.invertase.firebase.xml")
+        _HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.truthsocial.android/shared_prefs/io.invertase.firebase.xml'.format(foldername),'rb').read()).hexdigest())
+        
+        _FEED = {"Name":[],"Value":[]}
+        for i in recent:
+            _FEED["Name"].append(dict(i)["@name"])
+            _FEED["Value"].append(dict(i)["#text"])
+
+        prnt("Feed:",_FEED,2) if prt == 1 else None
+    
+    #===================================================
+    #===================================================
+    #===================================================
+
+    if os.path.isfile('./{}/com.truthsocial.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername)):
+        recent = dict(dict(xml_open('./{}/com.truthsocial.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername)))['map'])
+        #_HASHES["Filename"].append("com.google.android.gms.measurement.prefs.xml")
+        #_HASHES["SHA256"].append(hashlib.sha256(open('./{}/com.wimkin.android/shared_prefs/com.google.android.gms.measurement.prefs.xml'.format(foldername),'rb').read()).hexdigest())
+        
+        _PREF = {"Name":[],"Value":[]}
+        l = list(recent.values())
+        for i in l:
+            for j in i:
+                d = dict(j)
+                if any(i in d['@name'] for i in ['has_been_opened','first_open_time','last_pause_time','previous_os_version']):
+                    _PREF["Name"].append(d['@name'])
+                    try:
+                        _PREF["Value"].append(d['@value'])
+                    except:
+                        _PREF["Value"].append(d['#text'])
+
+        #prnt("Prefs:",_PREF,2) if prt == 1 else None
+    
+    #===================================================
+    #===================================================
+    #===================================================
+
+    path = "./{}/com.truthsocial.android/chatplus-chat.wimkin.com.db.db".format(foldername)
+    
+    if os.path.isfile(path):
+        _HASHES["Filename"].append(os.path.basename(path))
+        _HASHES["SHA256"].append(hashlib.sha256(open(path,'rb').read()).hexdigest())
+        
+        messages = sql(path,"SELECT id, msg, ts, u, attachments, urls from messages")
+        rooms = sql(path,"SELECT id, name, usersCount from rooms")
+        subs = sql(path,"SELECT id, ts, name, fname, last_message from subscriptions")
+            
+        _MSG = {"ID":[], "Msg":[], "Timestamp":[], "User":[], "Attachments":[], "URL":[]}
+        _ROOM = {"ID":[], "Name":[], "User_Count":[]}
+        _SUBS = {"ID":[], "Timestamp":[], "Profile":[], "Name":[], "Last_Message":[]}
+        
+        for i in messages:
+            _MSG["ID"].append(i[0])
+            _MSG["Msg"].append(i[1])
+            _MSG["Timestamp"].append(i[2])
+            _MSG["User"].append(i[3])
+            _MSG["Attachments"].append(i[4])
+            _MSG["URL"].append(i[5])
+            
+        for i in rooms:
+            _ROOM["ID"].append(i[0])
+            _ROOM["Name"].append(i[1])
+            _ROOM["User_Count"].append(i[2])
+
+        for i in subs:
+            _SUBS["ID"].append(i[0])
+            _SUBS["Timestamp"].append(i[1])
+            _SUBS["Profile"].append(i[2])
+            _SUBS["Name"].append(i[3])
+            _SUBS["Last_Message"].append(i[4])
+            
+        prnt("Messages:",_MSG,6) if prt == 1 else None
+        prnt("Rooms:",_ROOM,3) if prt == 1 else None
+        prnt("Subscribers:",_SUBS,5) if prt == 1 else None
+    
+    #===================================================
+    #===================================================
+    #===================================================
+    
+    path = glob.glob('./{}/com.truthsocial.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) + glob.glob('./{}/com.truthsocial.android/cache/*.m4a'.format(foldername))
+
+    if os.path.isdir('./{}/com.truthsocial.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) or os.path.isdir('./{}/com.truthsocial.android/cache/*.m4a'.format(foldername)):
+        _FILES = {"Filenames":[],"Location":[]}
+        
+        for i in path:
+            _HASHES["Filename"].append(os.path.basename(i))
+            _HASHES["SHA256"].append(hashlib.sha256(open(i,'rb').read()).hexdigest())
+            _FILES["Filenames"].append(os.path.basename(i))
+            _FILES["Location"].append("."+i[len(foldername)+2:])
+
+        prnt("DM Files:",_FILES,1) if prt == 1 else None
+
+    return [_SERV,_AUTH,_FEED,_PREF,_MSG,_ROOM,_SUBS,_FILES,_HASHES]
+
+
 def wimkin(prt):
 	if os.path.isdir('./{}/com.wimkin.android'.format(foldername)):
 		print("\nWimkin:\n") if prt == 1 else None
@@ -567,7 +711,7 @@ def wimkin(prt):
 	#===================================================
 	#===================================================
 
-	path = "./{}/com.wimkin.android/chatplus-chat.wimkin.com.db.db".format(foldername)
+	path = "./{}/com.wimkin.android/chatplus-chat.truthsocial.com.db.db".format(foldername)
 	
 	if os.path.isfile(path):
 		_HASHES["Filename"].append(os.path.basename(path))
@@ -609,9 +753,9 @@ def wimkin(prt):
 	#===================================================
 	#===================================================
 	
-	path = glob.glob('./{}/com.wimkin.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) + glob.glob('./{}/com.wimkin.android/cache/*.m4a'.format(foldername))
+	path = glob.glob('./{}/com.wimkin.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) + glob.glob('./{}/com.truthsocial.android/cache/*.m4a'.format(foldername))
 
-	if os.path.isdir('./{}/com.wimkin.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) or os.path.isdir('./{}/com.wimkin.android/cache/*.m4a'.format(foldername)):		
+	if os.path.isdir('./{}/com.wimkin.android/cache/react-native-image-crop-picker/*.mp4'.format(foldername)) or os.path.isdir('./{}/com.wimkin.android/cache/*.m4a'.format(foldername)):
 		_FILES = {"Filenames":[],"Location":[]}
 		
 		for i in path:
@@ -873,7 +1017,7 @@ def match(path):
 			f_url = os.path.basename(path)
 			return '<a href="{}" target="_blank" rel="noopener noreferrer">{}</a>'.format(path, f_url)
 
-def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):									#Generates report with parsed data
+def report(gettr_,safechat_,mindschat_,mindsmobile_,truthsocial_,wimkin_,clouthub_,mewe_):									#Generates report with parsed data
 	copyfile('./style.css', './{}/style.css'.format(foldername))
 	f = open("./{}/report.html".format(foldername),"w",encoding='utf-8')
 	f.write("<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport'><title>Android</title>\
@@ -887,6 +1031,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'SafeChat')">SafeChat</button>''')
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsChat')">Minds Chat</button>''')
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'MindsMobile')">Minds Mobile</button>''')
+     f.write('''<button class="tablinks" onclick="apptabs(event, 'TruthSocial')">Truth Social</button>''')
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'Wimkin')">Wimkin</button>''')
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'CloutHub')">CloutHub</button>''')
 	f.write('''<button class="tablinks" onclick="apptabs(event, 'MeWe')">MeWe</button>''')
@@ -1142,7 +1287,93 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
-	
+
+    f.write('''<div id="Truth Social" class="tabcontent">''')
+    if not truthsocial_[0]:
+        pass
+    else:
+        f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">RKStorage</a></h2>\n'''.format(os.path.abspath("./{}/com.truthsocial.android/databases/RKStorage".format(foldername))))
+        df1 = pd.DataFrame.from_dict(truthsocial_[0])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[1]:
+        pass
+    else:
+        f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">rocketUser.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.truthsocial.android/shared_prefs/rocketUser.xml".format(foldername))))
+        df1 = pd.DataFrame.from_dict(wimkin_[1])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[2]:
+        pass
+    else:
+        f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">io.invertase.firebase.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.truthsocial.android/shared_prefs/io.invertase.firebase.xml".format(foldername))))
+        df1 = pd.DataFrame.from_dict(truthsocial_[2])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    #if not truthsocial_[3]:
+    #    pass
+    #else:
+    #    f.write('''<h2><a href='xml-open:{}' target="_blank" rel="noopener noreferrer">com.google.android.gms.measurement.prefs.xml</a></h2>\n'''.format(os.path.abspath("./{}/com.truthsocial.android/shared_prefs/com.google.android.gms.measurement.prefs.xml".format(foldername))))
+    #    df1 = pd.DataFrame.from_dict(truthsocial_[3])
+    #    df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+    #    df1 = df1.replace("T_t03","t03")
+    #    f.write(df1)
+
+    if not truthsocial_[4]:
+        pass
+    else:
+        f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.truthsocial.com.db.db</a> - Subscribers</h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/chatplus-chat.truthsocial.com.db.db".format(foldername))))
+        df1 = pd.DataFrame.from_dict(truthsocial_[4])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[5]:
+        pass
+    else:
+        f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.truthsocial.com.db.db</a> - Rooms</h2>\n'''.format(os.path.abspath("./{}/com.wimkin.android/chatplus-chat.wimkin.com.db.db".format(foldername))))
+        df1 = pd.DataFrame.from_dict(truthsocial_[5])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[6]:
+        pass
+    else:
+        f.write('''<h2><a href='db-open:{}' target="_blank" rel="noopener noreferrer">chatplus-chat.truthsocial.com.db.db</a> - Messages</h2>\n'''.format(os.path.abspath("./{}/com.truthsocial.android/chatplus-chat.truthsocial.com.db.db".format(foldername))))
+        df1 = pd.DataFrame.from_dict(truthsocial_[6])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[7]:
+        pass
+    else:
+        f.write("<h2>Direct Message Files</h2>\n")
+        wimkin_[7].pop("Filenames")
+        df1 = pd.DataFrame.from_dict(truthsocial_[7])
+        df1 = df1.rename(columns={"Location":"Filenames"})
+        df1 = df1.style.format({"Filenames":match})
+        df1 = df1.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+
+    if not truthsocial_[8]["Filename"]:
+        pass
+    else:
+        f.write("<h2>Hash Table</h2>\n")
+        df1 = pd.DataFrame.from_dict(truthsocial_[8])
+        df1 = df1.style.set_properties(**{'text-align': 'center'},**{'overflow-x':'auto'},**{'max-width':'800px'}).set_table_attributes('class="center"').hide(axis='index').to_html(uuid='t03')
+        df1 = df1.replace("T_t03","t03")
+        f.write(df1)
+    f.write('''</div>''')
+
 	f.write('''<div id="Wimkin" class="tabcontent">''')
 	if not wimkin_[0]:
 		pass
@@ -1228,6 +1459,7 @@ def report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_):			
 		df1 = df1.replace("T_t03","t03")
 		f.write(df1)
 	f.write('''</div>''')
+    
 	f.write('''<div id="CloutHub" class="tabcontent">''')
 	
 	if not clouthub_[0]:
@@ -1432,7 +1664,7 @@ def selection():
 			print("\n\nSelection format is wrong. Please try again.")
 			return select(installedApps)
 
-	conv = {'com.gettr.gettr':0,'net.safechat.app':0,'com.minds.chat':0,'com.minds.mobile':0,'com.wimkin.android':0,'com.clouthub.clouthub':0,'com.mewe':0}
+	conv = {'com.gettr.gettr':0,'net.safechat.app':0,'com.minds.chat':0,'com.minds.mobile':0,'com.truthsocial.android':0,'com.wimkin.android':0,'com.clouthub.clouthub':0,'com.mewe':0}
 	
 	selectedApps = select(installedApps)
 	
@@ -1449,8 +1681,9 @@ def android(file):
 	safechat_ = safechat(prt[1])
 	mindschat_ = minds_chat(prt[2])
 	mindsmobile_ = minds_mobile(prt[3])
-	wimkin_ = wimkin(prt[4])
-	clouthub_ = clouthub(prt[5])
-	mewe_ = mewe(prt[6])
+    truthsocial_ = truth_social(prt[4])
+	wimkin_ = wimkin(prt[5])
+	clouthub_ = clouthub(prt[6])
+	mewe_ = mewe(prt[7])
 	hash_check(file)
-	report(gettr_,safechat_,mindschat_,mindsmobile_,wimkin_,clouthub_,mewe_)
+	report(gettr_,safechat_,mindschat_,mindsmobile_,truthsocial_,wimkin_,clouthub_,mewe_)

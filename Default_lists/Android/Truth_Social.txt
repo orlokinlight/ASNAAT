@@ -1,0 +1,8 @@
+/com.truthsocial.android/databases/RKStorage
+/com.truthsocial.android/cache/image-cache/v2.ols100.1/99
+/com.truthsocial.android/cache/react-native-image-crop-picker
+/com.truthsocial.android/cache
+/com.truthsocial.android/shared_prefs/rocketUser.xml
+/com.truthsocial.android/shared_prefs/io.invertase.firebase.xml
+/com.truthsocial.android/shared_prefs/com.google.android.gms.measurement.prefs.xml
+/com.truthsocial.android/chatplus-chat.wimkin.com.db.db
